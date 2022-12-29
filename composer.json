@@ -1,0 +1,26 @@
+{
+    "name": "westy92/holiday-event-api",
+    "description": "The Official Holiday and Event API for PHP",
+    "type": "library",
+    "keywords": [
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Westy92\\HolidayEventApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Seth Westphal",
+            "email": "seth@sethwestphal.com",
+            "homepage": "https://github.com/westy92"
+        }
+    ]
+}
