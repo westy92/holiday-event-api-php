@@ -23,5 +23,10 @@
             "email": "seth@sethwestphal.com",
             "homepage": "https://github.com/westy92"
         }
-    ]
+    ],
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
+    }
 }
