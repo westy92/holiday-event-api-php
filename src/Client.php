@@ -3,6 +3,10 @@
 namespace Westy92\HolidayEventApi;
 
 use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class Client
 {
@@ -26,7 +30,7 @@ class Client
         $this->client = $this->clientBuilder();
     }
 
-    public function getEvents(?string $date = null, bool $adult = false, ?string $timezone = null) // TODO return type
+    public function getEvents(?string $date = null, bool $adult = false, ?string $timezone = null): Model\GetEventsResponse
     {
         $params = ['adult' => var_export($adult, true)];
         if ($date != null) {
@@ -35,10 +39,10 @@ class Client
         if ($timezone != null) {
             $params["timezone"] = $timezone;
         }
-        return $this->request('events', $params);
+        return $this->request('events', $params, Model\GetEventsResponse::class);
     }
 
-    private function request(string $path, $query) // TODO return type
+    private function request(string $path, $query, string $type) // TODO return type
     {
         try {
             // TODO define headers in constructor?
@@ -52,15 +56,21 @@ class Client
                 'headers' => $headers,
             ]);
 
-            $result = json_decode($response->getBody(), true)
-                ?? throw new \RuntimeException('Unable to parse response.');
+            // TODO define serializer in constructor?
+            $encoders = [new JsonEncoder()];
+            $normalizers = [new PropertyNormalizer()];
 
+            $serializer = new Serializer($normalizers, $encoders);
+
+            $result = $serializer->deserialize($response->getBody(), $type, 'json');
+
+            $rateLimit = new Model\RateLimit();
             $limit = $response->getHeader("x-ratelimit-limit-month");
             $remaining = $response->getHeader("x-ratelimit-remaining-month");
-            $result['rateLimit'] = [
-                'limitMonth' => empty($limit) ? 0 : intval($limit[0]),
-                'remainingMonth' => empty($remaining) ? 0 : intval($remaining[0]),
-            ];
+            $rateLimit->limitMonth = empty($limit) ? 0 : intval($limit[0]);
+            $rateLimit->remainingMonth = empty($remaining) ? 0 : intval($remaining[0]);
+            $result->rateLimit = $rateLimit;
+
             return $result;
         } catch (ClientException $e) {
             if ($e->hasResponse()) {
@@ -70,6 +80,8 @@ class Client
                     ?? $e->getResponse()->getStatusCode()
                 );
             }
+        } catch (NotEncodableValueException) {
+            throw new \RuntimeException('Unable to parse response.');
         }
     }
 }

@@ -139,7 +139,7 @@ final class CommonTest extends TestCase
         );
         $client = new TestClient('abc123', $this->mock);
         $result = $client->getEvents();
-        $this->assertEquals(123, $result['rateLimit']['remainingMonth']);
-        $this->assertEquals(456, $result['rateLimit']['limitMonth']);
+        $this->assertEquals(123, $result->rateLimit->remainingMonth);
+        $this->assertEquals(456, $result->rateLimit->limitMonth);
     }
 }
