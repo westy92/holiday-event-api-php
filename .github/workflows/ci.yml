@@ -20,9 +20,12 @@ jobs:
           php_version: ${{ matrix.php-version }}
       - name: Test with Coverage
         uses: php-actions/phpunit@v3
+        env:
+          XDEBUG_MODE: coverage
         with:
           php_version: ${{ matrix.php-version }}
           php_extensions: xdebug
+        args: test --coverage-clover ./coverage.xml
       - name: Upload coverage to Codecov
         if: ${{ matrix.php-version == '8.0' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v3
