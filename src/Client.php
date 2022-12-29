@@ -139,9 +139,13 @@ class Client
                  * @var mixed
                  */
                 $json = json_decode($e->getResponse()->getBody()->__toString(), true);
-                throw new \RuntimeException($json['error']
+                /**
+                 * @var ?string
+                 */
+                $error = isset($json['error']) && is_string($json['error']) ? $json['error'] : null;
+                throw new \RuntimeException($error
                     ?? $e->getResponse()->getReasonPhrase()
-                    ?: $e->getResponse()->getStatusCode()
+                    ?: strval($e->getResponse()->getStatusCode())
                 );
             } else {
                 throw new \RuntimeException('Unable to parse response.');
