@@ -2,9 +2,16 @@
 
 namespace Westy92\HolidayEventApi;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use GuzzleHttp\Exception\ClientException;
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -36,7 +43,13 @@ class Client
         ];
 
         $encoders = [new JsonEncoder()];
-        $normalizers = [new PropertyNormalizer()];
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+        $metadataAwareNameConverter = new MetadataAwareNameConverter($classMetadataFactory);
+        $typeExtractor = new PropertyInfoExtractor(typeExtractors: [new PhpDocExtractor()]);
+        $normalizers = [
+            new ArrayDenormalizer(),
+            new PropertyNormalizer($classMetadataFactory, $metadataAwareNameConverter, $typeExtractor),
+        ];
         $this->serializer = new Serializer($normalizers, $encoders);
 
         $this->client = $this->clientBuilder();
