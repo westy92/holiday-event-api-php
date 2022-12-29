@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Client
 {
-    public static string $version = '1.0.0';
+    public static string $version = '1.0.1';
 
     private \GuzzleHttp\Client $client;
     private array $defaultHeaders;

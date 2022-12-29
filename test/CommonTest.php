@@ -41,7 +41,7 @@ final class CommonTest extends TestCase
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
-                $this->assertEquals(['HolidayApiPHP/1.0.0'], $request->getHeader('user-agent'));
+                $this->assertEquals(['HolidayApiPHP/1.0.1'], $request->getHeader('user-agent'));
                 return new Response(200, [], TestJson::getEventsDefaultJson());
             },
         );
