@@ -10,9 +10,11 @@ use Symfony\Component\Serializer\Serializer;
 
 class Client
 {
-    private $client;
-    private string $apiKey;
     public const VERSION = '1.0.0';
+
+    private \GuzzleHttp\Client $client;
+    private array $defaultHeaders;
+    private Serializer $serializer;
 
     protected function clientBuilder(): \GuzzleHttp\Client
     {
@@ -26,7 +28,17 @@ class Client
         if (empty($apiKey)) {
             throw new \InvalidArgumentException("Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.");
         }
-        $this->apiKey = $apiKey;
+
+        $this->defaultHeaders = [
+            'apikey' => $apiKey,
+            'User-Agent' => 'HolidayApiPHP/' . $this::VERSION,
+            'X-Platform-Version' => phpversion(),
+        ];
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new PropertyNormalizer()];
+        $this->serializer = new Serializer($normalizers, $encoders);
+
         $this->client = $this->clientBuilder();
     }
 
@@ -42,27 +54,15 @@ class Client
         return $this->request('events', $params, Model\GetEventsResponse::class);
     }
 
-    private function request(string $path, $query, string $type) // TODO return type
+    private function request(string $path, array $query, string $type) // TODO return type
     {
         try {
-            // TODO define headers in constructor?
-            $headers = [
-                'apikey' => $this->apiKey,
-                'User-Agent' => 'HolidayApiPHP/' . $this::VERSION,
-                'X-Platform-Version' => phpversion(),
-            ];
             $response = $this->client->get($path, [
                 'query' => $query,
-                'headers' => $headers,
+                'headers' => $this->defaultHeaders,
             ]);
 
-            // TODO define serializer in constructor?
-            $encoders = [new JsonEncoder()];
-            $normalizers = [new PropertyNormalizer()];
-
-            $serializer = new Serializer($normalizers, $encoders);
-
-            $result = $serializer->deserialize($response->getBody(), $type, 'json');
+            $result = $this->serializer->deserialize($response->getBody(), $type, 'json');
 
             $rateLimit = new Model\RateLimit();
             $limit = $response->getHeader("x-ratelimit-limit-month");
