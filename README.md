@@ -11,7 +11,7 @@ Industry-leading Holiday and Event API for PHP. Over 5,000 holidays and thousand
 
 ## Supported PHP Versions
 
-Latest version of the the Holiday and Event API supports all currently-supported PHP [releases](https://endoflife.date/php).
+The latest version of the the Holiday and Event API supports all currently-supported PHP [releases](https://endoflife.date/php).
 
 ## Authentication
 
@@ -19,7 +19,7 @@ Access to the Holiday and Event API requires an API Key. You can get for one for
 
 ## Installation
 
-The recommended way to install holiday-event-api is through [Composer](https://getcomposer.org/).
+The recommended way to install the Holiday and Event API is through [Composer](https://getcomposer.org/).
 
 ```
 composer require westy92/holiday-event-api
@@ -72,4 +72,4 @@ try {
 
 ## License
 
-holiday-event-api is made available under the MIT License (MIT). Please see the [License File](LICENSE) for more information.
+The Holiday and Event API is made available under the MIT License (MIT). Please see the [License File](LICENSE) for more information.
