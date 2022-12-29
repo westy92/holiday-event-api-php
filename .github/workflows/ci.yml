@@ -25,7 +25,7 @@ jobs:
         with:
           php_version: ${{ matrix.php-version }}
           php_extensions: xdebug
-        args: test --coverage-clover ./coverage.xml
+          args: test --coverage-clover ./coverage.xml
       - name: Upload coverage to Codecov
         if: ${{ matrix.php-version == '8.0' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v3
