@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [ubuntu-latest] #[ubuntu-latest, windows-latest, macos-latest]
         # https://endoflife.date/php
-        php-version: ['8.0'] # TODO ['8.0', '8.1', '8.2']
+        php-version: ['8.0', '8.1', '8.2']
 
     steps:
       - uses: actions/checkout@v3
