@@ -11,7 +11,7 @@ Industry-leading Holiday and Event API for PHP. Over 5,000 holidays and thousand
 
 ## Supported PHP Versions
 
-The latest version of the the Holiday and Event API supports all currently-supported PHP [releases](https://endoflife.date/php).
+The latest version of the the Holiday and Event API is compatible with all currently-supported PHP [releases](https://endoflife.date/php).
 
 ## Authentication
 
