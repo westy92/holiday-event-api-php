@@ -1,7 +1,7 @@
 # The Official Holiday and Event API for PHP
 
-<!-- TODO packagist -->
-<!-- TODO PHP version -->
+[![Packagist Version](https://img.shields.io/packagist/v/westy92/holiday-event-api)](https://packagist.org/packages/westy92/holiday-event-api)
+[![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/westy92/holiday-event-api/php)](https://php.net/)
 [![Build Status](https://github.com/westy92/holiday-event-api-php/actions/workflows/ci.yml/badge.svg)](https://github.com/westy92/holiday-event-api-php/actions)
 [![Code Coverage](https://codecov.io/gh/westy92/holiday-event-api-php/branch/main/graph/badge.svg)](https://codecov.io/gh/westy92/holiday-event-api-php)
 [![Type Coverage](https://shepherd.dev/github/westy92/holiday-event-api-php/coverage.svg)](https://shepherd.dev/github/westy92/holiday-event-api-php)
@@ -19,8 +19,10 @@ Access to the Holiday and Event API requires an API Key. You can get for one for
 
 ## Installation
 
+The recommended way to install holiday-event-api is through [Composer](https://getcomposer.org/).
+
 ```
-TODO
+composer require westy92/holiday-event-api
 ```
 
 ## Example
@@ -67,3 +69,7 @@ try {
     echo $e;
 }
 ```
+
+## License
+
+holiday-event-api is made available under the MIT License (MIT). Please see the [License File](LICENSE) for more information.
