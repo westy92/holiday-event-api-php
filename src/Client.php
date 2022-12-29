@@ -134,22 +134,18 @@ class Client
 
             return $result;
         } catch (ClientException $e) {
-            if ($e->hasResponse()) {
-                /**
-                 * @var mixed
-                 */
-                $json = json_decode($e->getResponse()->getBody()->__toString(), true);
-                /**
-                 * @var ?string
-                 */
-                $error = is_array($json) && isset($json['error']) && is_string($json['error']) ? $json['error'] : null;
-                throw new \RuntimeException($error
-                    ?? $e->getResponse()->getReasonPhrase()
-                    ?: strval($e->getResponse()->getStatusCode())
-                );
-            } else {
-                throw new \RuntimeException('Unable to parse response.');
-            }
+            /**
+             * @var mixed
+             */
+            $json = json_decode($e->getResponse()->getBody()->__toString(), true);
+            /**
+             * @var ?string
+             */
+            $error = is_array($json) && isset($json['error']) && is_string($json['error']) ? $json['error'] : null;
+            throw new \RuntimeException($error
+                ?? $e->getResponse()->getReasonPhrase()
+                ?: strval($e->getResponse()->getStatusCode())
+            );
         } catch (NotEncodableValueException) {
             throw new \RuntimeException('Unable to parse response.');
         }
