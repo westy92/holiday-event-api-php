@@ -8,9 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Westy92\HolidayEventApi\Model\EventSummary;
 
 require_once 'TestClient.php';
-
-$getEventsDefaultJson = file_get_contents(__DIR__ . '/getEvents-default.json');
-$getEventsParametersJson = file_get_contents(__DIR__ . '/getEvents-parameters.json');
+require_once 'TestJson.php';
 
 final class GetEventsTest extends TestCase
 {
@@ -31,8 +29,7 @@ final class GetEventsTest extends TestCase
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
                 $this->assertEquals('https://api.apilayer.com/checkiday/events?adult=false', $request->getUri());
-                global $getEventsDefaultJson;
-                return new Response(200, [], $getEventsDefaultJson);
+                return new Response(200, [], TestJson::getEventsDefaultJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
@@ -61,8 +58,7 @@ final class GetEventsTest extends TestCase
                     'date' => '7/16/1992',
                     'timezone' => 'America/New_York',
                 ], $query);
-                global $getEventsParametersJson;
-                return new Response(200, [], $getEventsParametersJson);
+                return new Response(200, [], TestJson::getEventsParametersJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);

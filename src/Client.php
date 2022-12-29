@@ -81,10 +81,10 @@ class Client
             'id' => $id,
         ];
         if ($start != null) {
-            $params['start'] = intval($start);
+            $params['start'] = strval($start);
         }
         if ($end != null) {
-            $params['end'] = intval($end);
+            $params['end'] = strval($end);
         }
         return $this->request('event', $params, Model\GetEventInfoResponse::class);
     }

@@ -9,8 +9,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 
 require_once 'TestClient.php';
-
-$getEventsDefaultJson = file_get_contents(__DIR__ . '/getEvents-default.json');
+require_once 'TestJson.php';
 
 final class CommonTest extends TestCase
 {
@@ -31,8 +30,7 @@ final class CommonTest extends TestCase
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
                 $this->assertEquals(['abc123'], $request->getHeader('apikey'));
-                global $getEventsDefaultJson;
-                return new Response(200, [], $getEventsDefaultJson);
+                return new Response(200, [], TestJson::getEventsDefaultJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
@@ -44,8 +42,7 @@ final class CommonTest extends TestCase
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
                 $this->assertEquals(['HolidayApiPHP/1.0.0'], $request->getHeader('user-agent'));
-                global $getEventsDefaultJson;
-                return new Response(200, [], $getEventsDefaultJson);
+                return new Response(200, [], TestJson::getEventsDefaultJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
@@ -57,8 +54,7 @@ final class CommonTest extends TestCase
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
                 $this->assertEquals([phpversion()], $request->getHeader('x-platform-version'));
-                global $getEventsDefaultJson;
-                return new Response(200, [], $getEventsDefaultJson);
+                return new Response(200, [], TestJson::getEventsDefaultJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
@@ -127,8 +123,7 @@ final class CommonTest extends TestCase
             },
             function (\GuzzleHttp\Psr7\Request $request) {
                 $this->assertEquals('https://www.google.com', $request->getUri());
-                global $getEventsDefaultJson;
-                return new Response(200, [], $getEventsDefaultJson);
+                return new Response(200, [], TestJson::getEventsDefaultJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
@@ -137,12 +132,11 @@ final class CommonTest extends TestCase
 
     public function testReportsRateLimits(): void
     {
-        global $getEventsDefaultJson;
         $this->mock->append(
             new Response(200, [
                 'X-RateLimit-Remaining-Month' => '123',
                 'X-RateLimit-Limit-Month' => '456',
-            ], $getEventsDefaultJson),
+            ], TestJson::getEventsDefaultJson()),
         );
         $client = new TestClient('abc123', $this->mock);
         $result = $client->getEvents();

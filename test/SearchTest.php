@@ -8,9 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Westy92\HolidayEventApi\Model\EventSummary;
 
 require_once 'TestClient.php';
-
-$searchDefaultJson = file_get_contents(__DIR__ . '/search-default.json');
-$searchParametersJson = file_get_contents(__DIR__ . '/search-parameters.json');
+require_once 'TestJson.php';
 
 final class SearchTest extends TestCase
 {
@@ -36,8 +34,7 @@ final class SearchTest extends TestCase
                     'adult' => 'false',
                     'query' => 'zucchini',
                 ], $query);
-                global $searchDefaultJson;
-                return new Response(200, [], $searchDefaultJson);
+                return new Response(200, [], TestJson::searchDefaultJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
@@ -62,8 +59,7 @@ final class SearchTest extends TestCase
                     'adult' => 'true',
                     'query' => 'porch day',
                 ], $query);
-                global $searchParametersJson;
-                return new Response(200, [], $searchParametersJson);
+                return new Response(200, [], TestJson::searchParametersJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);

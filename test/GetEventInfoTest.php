@@ -5,13 +5,10 @@ namespace Westy92\HolidayEventApi\Tests;
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use Westy92\HolidayEventApi\Model\EventSummary;
 use Westy92\HolidayEventApi\Model\Occurrence;
 
 require_once 'TestClient.php';
-
-$getEventInfoDefaultJson = file_get_contents(__DIR__ . '/getEventInfo.json');
-$getEventInfoParametersJson = file_get_contents(__DIR__ . '/getEventInfo-parameters.json');
+require_once 'TestJson.php';
 
 final class GetEventInfoTest extends TestCase
 {
@@ -32,8 +29,7 @@ final class GetEventInfoTest extends TestCase
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
                 $this->assertEquals('https://api.apilayer.com/checkiday/event?id=f90b893ea04939d7456f30c54f68d7b4', $request->getUri());
-                global $getEventInfoDefaultJson;
-                return new Response(200, [], $getEventInfoDefaultJson);
+                return new Response(200, [], TestJson::getEventInfoDefaultJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
@@ -52,8 +48,7 @@ final class GetEventInfoTest extends TestCase
                     'start' => '2002',
                     'end' => '2003',
                 ], $query);
-                global $getEventInfoParametersJson;
-                return new Response(200, [], $getEventInfoParametersJson);
+                return new Response(200, [], TestJson::getEventInfoParametersJson());
             },
         );
         $client = new TestClient('abc123', $this->mock);
