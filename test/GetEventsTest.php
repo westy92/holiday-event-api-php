@@ -26,7 +26,7 @@ final class GetEventsTest extends TestCase
         $this->assertEquals(0, $this->mock->count());
     }
 
-    public function testGetEventsWithDefaultParameters()
+    public function testGetEventsWithDefaultParameters(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -42,14 +42,15 @@ final class GetEventsTest extends TestCase
         $this->assertEquals(2, count($result->events));
         $this->assertEquals(1, count($result->multidayStarting));
         $this->assertEquals(2, count($result->multidayOngoing));
-        $expected = new EventSummary();
-        $expected->id = 'b80630ae75c35f34c0526173dd999cfc';
-        $expected->name = 'Cinco de Mayo';
-        $expected->url = 'https://www.checkiday.com/b80630ae75c35f34c0526173dd999cfc/cinco-de-mayo';
+        $expected = new EventSummary(
+            id: 'b80630ae75c35f34c0526173dd999cfc',
+            name: 'Cinco de Mayo',
+            url: 'https://www.checkiday.com/b80630ae75c35f34c0526173dd999cfc/cinco-de-mayo',
+        );
         $this->assertEquals($expected, $result->events[0]);
     }
 
-    public function testGetEventsWithSetParameters()
+    public function testGetEventsWithSetParameters(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -71,10 +72,11 @@ final class GetEventsTest extends TestCase
         $this->assertEquals(2, count($result->events));
         $this->assertEquals(0, count($result->multidayStarting));
         $this->assertEquals(1, count($result->multidayOngoing));
-        $expected = new EventSummary();
-        $expected->id = '6ebb6fd5e483de2fde33969a6c398472';
-        $expected->name = 'Get to Know Your Customers Day';
-        $expected->url = 'https://www.checkiday.com/6ebb6fd5e483de2fde33969a6c398472/get-to-know-your-customers-day';
+        $expected = new EventSummary(
+            id: '6ebb6fd5e483de2fde33969a6c398472',
+            name: 'Get to Know Your Customers Day',
+            url: 'https://www.checkiday.com/6ebb6fd5e483de2fde33969a6c398472/get-to-know-your-customers-day',
+        );
         $this->assertEquals($expected, $result->events[0]);
     }
 }

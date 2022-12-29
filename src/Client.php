@@ -91,20 +91,21 @@ class Client
 
             $result = $this->serializer->deserialize($response->getBody(), $type, 'json');
 
-            $rateLimit = new Model\RateLimit();
             $limit = $response->getHeader('x-ratelimit-limit-month');
             $remaining = $response->getHeader('x-ratelimit-remaining-month');
-            $rateLimit->limitMonth = empty($limit) ? 0 : intval($limit[0]);
-            $rateLimit->remainingMonth = empty($remaining) ? 0 : intval($remaining[0]);
+            $rateLimit = new Model\RateLimit(
+                limitMonth: empty($limit) ? 0 : intval($limit[0]),
+                remainingMonth: empty($remaining) ? 0 : intval($remaining[0]),
+            );
             $result->rateLimit = $rateLimit;
 
             return $result;
         } catch (ClientException $e) {
             if ($e->hasResponse()) {
-                $json = json_decode($e->getResponse()->getBody(), true);
-                throw new \RuntimeException($json['error'] 
-                    ?? $e->getResponse()->getReasonPhrase() 
-                    ?? $e->getResponse()->getStatusCode()
+                $json = json_decode($e->getResponse()->getBody()->__toString(), true);
+                throw new \RuntimeException($json['error']
+                    ?? $e->getResponse()->getReasonPhrase()
+                    ?: $e->getResponse()->getStatusCode()
                 );
             }
         } catch (NotEncodableValueException) {

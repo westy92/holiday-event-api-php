@@ -26,7 +26,7 @@ final class SearchTest extends TestCase
         $this->assertEquals(0, $this->mock->count());
     }
 
-    public function testSearchWithDefaultParameters()
+    public function testSearchWithDefaultParameters(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -44,14 +44,15 @@ final class SearchTest extends TestCase
         $result = $client->search('zucchini');
         $this->assertEquals(false, $result->adult);
         $this->assertEquals(3, count($result->events));
-        $expected = new EventSummary();
-        $expected->id = 'cc81cbd8730098456f85f69798cbc867';
-        $expected->name = 'National Zucchini Bread Day';
-        $expected->url = 'https://www.checkiday.com/cc81cbd8730098456f85f69798cbc867/national-zucchini-bread-day';
+        $expected = new EventSummary(
+            id: 'cc81cbd8730098456f85f69798cbc867',
+            name: 'National Zucchini Bread Day',
+            url: 'https://www.checkiday.com/cc81cbd8730098456f85f69798cbc867/national-zucchini-bread-day',
+        );
         $this->assertEquals($expected, $result->events[0]);
     }
 
-    public function testSearchWithSetParameters()
+    public function testSearchWithSetParameters(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -69,14 +70,15 @@ final class SearchTest extends TestCase
         $result = $client->search('porch day', true);
         $this->assertEquals(true, $result->adult);
         $this->assertEquals(1, count($result->events));
-        $expected = new EventSummary();
-        $expected->id = '61363236f06e4eb8e4e14e5925c2503d';
-        $expected->name = "Sneak Some Zucchini Onto Your Neighbor's Porch Day";
-        $expected->url = 'https://www.checkiday.com/61363236f06e4eb8e4e14e5925c2503d/sneak-some-zucchini-onto-your-neighbors-porch-day';
+        $expected = new EventSummary(
+            id: '61363236f06e4eb8e4e14e5925c2503d',
+            name: "Sneak Some Zucchini Onto Your Neighbor's Porch Day",
+            url: 'https://www.checkiday.com/61363236f06e4eb8e4e14e5925c2503d/sneak-some-zucchini-onto-your-neighbors-porch-day',
+        );
         $this->assertEquals($expected, $result->events[0]);
     }
 
-    public function testSearchQueryTooShort()
+    public function testSearchQueryTooShort(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -100,7 +102,7 @@ final class SearchTest extends TestCase
         $client->search('a');
     }
 
-    public function testSearchTooManyResults()
+    public function testSearchTooManyResults(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -124,7 +126,7 @@ final class SearchTest extends TestCase
         $client->search('day');
     }
 
-    public function testSearchMissingParameters()
+    public function testSearchMissingParameters(): void
     {
         $client = new TestClient('abc123', $this->mock);
         $this->expectException(\InvalidArgumentException::class);

@@ -20,4 +20,11 @@ final class SearchResponse extends StandardResponse
      * @var EventSummary[]
      */
     public array $events;
+
+    public function __construct(string $query, bool $adult, array $events, ?RateLimit $rateLimit = null) {
+        $this->query = $query;
+        $this->adult = $adult;
+        $this->events = $events;
+        parent::__construct($rateLimit);
+    }
 }

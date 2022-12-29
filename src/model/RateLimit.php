@@ -15,4 +15,9 @@ final class RateLimit
      * The amount of requests remaining this month
      */
     public int $remainingMonth;
+
+    public function __construct(int $limitMonth, int $remainingMonth) {
+        $this->limitMonth = $limitMonth;
+        $this->remainingMonth = $remainingMonth;
+    }
 }

@@ -19,4 +19,10 @@ final class EventSummary
      * The Event URL
      */
     public string $url;
+
+    public function __construct(string $id, string $name, string $url) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->url = $url;
+    }
 }

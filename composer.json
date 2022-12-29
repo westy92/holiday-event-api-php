@@ -42,7 +42,8 @@
         "phpdocumentor/reflection-docblock": "^5.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^5.4"
     },
     "license": "MIT",
     "homepage": "https://github.com/westy92/holiday-event-api-php",

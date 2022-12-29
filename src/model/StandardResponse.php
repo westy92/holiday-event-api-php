@@ -10,5 +10,9 @@ abstract class StandardResponse
     /**
      * The API plan's current rate limit and status
      */
-    public RateLimit $rateLimit;
+    public ?RateLimit $rateLimit;
+
+    public function __construct(?RateLimit $rateLimit) {
+        $this->rateLimit = $rateLimit;
+    }
 }
