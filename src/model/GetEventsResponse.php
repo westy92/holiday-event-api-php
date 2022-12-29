@@ -31,11 +31,11 @@ final class GetEventsResponse extends StandardResponse
      * @var ?EventSummary[]
      */
     #[SerializedName('multiday_starting')]
-    public array $multidayStarting;
+    public ?array $multidayStarting;
     /**
      * Multi-day Events that are continuing their observance on Date
      * @var ?EventSummary[]
      */
     #[SerializedName('multiday_ongoing')]
-    public array $multidayOngoing;
+    public ?array $multidayOngoing;
 }
