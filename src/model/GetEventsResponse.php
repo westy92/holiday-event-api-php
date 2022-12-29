@@ -39,6 +39,11 @@ final class GetEventsResponse extends StandardResponse
     #[SerializedName('multiday_ongoing')]
     public ?array $multidayOngoing;
 
+    /**
+     * @param EventSummary[] $events
+     * @param ?EventSummary[] $multidayStarting
+     * @param ?EventSummary[] $multidayOngoing
+     */
     public function __construct(bool $adult, string $date, string $timezone, array $events, ?array $multidayStarting, ?array $multidayOngoing, ?RateLimit $rateLimit = null) {
         $this->adult = $adult;
         $this->date = $date;

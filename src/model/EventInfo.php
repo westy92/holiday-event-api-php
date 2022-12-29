@@ -57,6 +57,14 @@ final class EventInfo extends EventSummary
      */
     public ?array $occurrences;
 
+    /**
+     * @param AlternateName[] $alternateNames
+     * @param string[] $hashtags
+     * @param ?string[] $sources
+     * @param ?Pattern[] $patterns
+     * @param ?FounderInfo[] $founders
+     * @param ?Occurrence[] $occurrences
+     */
     public function __construct(bool $adult, array $alternateNames, ?array $hashtags, ?ImageInfo $image, ?array $sources, ?RichText $description, ?RichText $howToObserve, ?array $patterns, ?array $founders, ?array $occurrences, string $id, string $name, string $url) {
         $this->adult = $adult;
         $this->alternateNames = $alternateNames;

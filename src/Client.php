@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Client
 {
-    public const VERSION = '1.0.0';
+    public static string $version = '1.0.0';
 
     private \GuzzleHttp\Client $client;
     private array $defaultHeaders;
@@ -38,7 +38,7 @@ class Client
 
         $this->defaultHeaders = [
             'apikey' => $apiKey,
-            'User-Agent' => 'HolidayApiPHP/' . $this::VERSION,
+            'User-Agent' => 'HolidayApiPHP/' . self::$version,
             'X-Platform-Version' => phpversion(),
         ];
 
@@ -67,6 +67,9 @@ class Client
         if ($timezone != null) {
             $params['timezone'] = $timezone;
         }
+        /**
+         * @var Model\GetEventsResponse
+         */
         return $this->request('events', $params, Model\GetEventsResponse::class);
     }
 
@@ -86,6 +89,9 @@ class Client
         if ($end != null) {
             $params['end'] = strval($end);
         }
+        /**
+         * @var Model\GetEventInfoResponse
+         */
         return $this->request('event', $params, Model\GetEventInfoResponse::class);
     }
 
@@ -100,10 +106,13 @@ class Client
             'query' => $query,
             'adult' => var_export($adult, true),
         ];
+        /**
+         * @var Model\SearchResponse
+         */
         return $this->request('search', $params, Model\SearchResponse::class);
     }
 
-    private function request(string $path, array $query, string $type) // TODO return type
+    private function request(string $path, array $query, string $type): Model\StandardResponse
     {
         try {
             $response = $this->client->get($path, [
@@ -111,24 +120,31 @@ class Client
                 'headers' => $this->defaultHeaders,
             ]);
 
+            /**
+             * @var Model\StandardResponse
+             */
             $result = $this->serializer->deserialize($response->getBody(), $type, 'json');
 
             $limit = $response->getHeader('x-ratelimit-limit-month');
             $remaining = $response->getHeader('x-ratelimit-remaining-month');
-            $rateLimit = new Model\RateLimit(
+            $result->rateLimit = new Model\RateLimit(
                 limitMonth: empty($limit) ? 0 : intval($limit[0]),
                 remainingMonth: empty($remaining) ? 0 : intval($remaining[0]),
             );
-            $result->rateLimit = $rateLimit;
 
             return $result;
         } catch (ClientException $e) {
             if ($e->hasResponse()) {
+                /**
+                 * @var mixed
+                 */
                 $json = json_decode($e->getResponse()->getBody()->__toString(), true);
                 throw new \RuntimeException($json['error']
                     ?? $e->getResponse()->getReasonPhrase()
                     ?: $e->getResponse()->getStatusCode()
                 );
+            } else {
+                throw new \RuntimeException('Unable to parse response.');
             }
         } catch (NotEncodableValueException) {
             throw new \RuntimeException('Unable to parse response.');
