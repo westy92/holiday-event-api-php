@@ -2,6 +2,8 @@
 
 namespace Westy92\HolidayEventApi;
 
+use GuzzleHttp\Exception\ClientException;
+
 class Client
 {
     private $client;
@@ -36,16 +38,38 @@ class Client
         return $this->request('events', $params);
     }
 
-    private function request(string $path, $query): void
+    private function request(string $path, $query) // TODO return type
     {
-        $headers = [
-            'apikey' => $this->apiKey,
-            'User-Agent' => 'HolidayApiPHP/' . $this::VERSION,
-            'X-Platform-Version' => phpversion(),
-        ];
-        $request = $this->client->get($path, [
-            'query' => $query,
-            'headers' => $headers,
-        ]);
+        try {
+            // TODO define headers in constructor?
+            $headers = [
+                'apikey' => $this->apiKey,
+                'User-Agent' => 'HolidayApiPHP/' . $this::VERSION,
+                'X-Platform-Version' => phpversion(),
+            ];
+            $response = $this->client->get($path, [
+                'query' => $query,
+                'headers' => $headers,
+            ]);
+
+            $result = json_decode($response->getBody(), true)
+                ?? throw new \RuntimeException('Unable to parse response.');
+
+            $limit = $response->getHeader("x-ratelimit-limit-month");
+            $remaining = $response->getHeader("x-ratelimit-remaining-month");
+            $result['rateLimit'] = [
+                'limitMonth' => empty($limit) ? 0 : intval($limit[0]),
+                'remainingMonth' => empty($remaining) ? 0 : intval($remaining[0]),
+            ];
+            return $result;
+        } catch (ClientException $e) {
+            if ($e->hasResponse()) {
+                $json = json_decode($e->getResponse()->getBody(), true);
+                throw new \RuntimeException($json['error'] 
+                    ?? $e->getResponse()->getReasonPhrase() 
+                    ?? $e->getResponse()->getStatusCode()
+                );
+            }
+        }
     }
 }
