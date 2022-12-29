@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest] #[ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         # https://endoflife.date/php
         php-version: ['8.0', '8.1', '8.2']
 
@@ -27,5 +27,5 @@ jobs:
           php_extensions: xdebug
           args: test --coverage-clover ./coverage.xml
       - name: Upload coverage to Codecov
-        if: ${{ matrix.php-version == '8.0' && matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.php-version == '8.2' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v3
