@@ -33,7 +33,7 @@ class Client
     public function __construct(string $apiKey)
     {
         if (empty($apiKey)) {
-            throw new \InvalidArgumentException("Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.");
+            throw new \InvalidArgumentException('Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.');
         }
 
         $this->defaultHeaders = [
@@ -59,12 +59,26 @@ class Client
     {
         $params = ['adult' => var_export($adult, true)];
         if ($date != null) {
-            $params["date"] = $date;
+            $params['date'] = $date;
         }
         if ($timezone != null) {
-            $params["timezone"] = $timezone;
+            $params['timezone'] = $timezone;
         }
         return $this->request('events', $params, Model\GetEventsResponse::class);
+    }
+
+    /**
+     * Searches for Events with the given criteria
+     */
+    public function search(string $query, bool $adult = false): Model\SearchResponse {
+        if (empty($query)) {
+            throw new \InvalidArgumentException('Search query is required.');
+        }
+        $params = [
+            'query' => $query,
+            'adult' => var_export($adult, true),
+        ];
+        return $this->request('search', $params, Model\SearchResponse::class);
     }
 
     private function request(string $path, array $query, string $type) // TODO return type
@@ -78,8 +92,8 @@ class Client
             $result = $this->serializer->deserialize($response->getBody(), $type, 'json');
 
             $rateLimit = new Model\RateLimit();
-            $limit = $response->getHeader("x-ratelimit-limit-month");
-            $remaining = $response->getHeader("x-ratelimit-remaining-month");
+            $limit = $response->getHeader('x-ratelimit-limit-month');
+            $remaining = $response->getHeader('x-ratelimit-remaining-month');
             $rateLimit->limitMonth = empty($limit) ? 0 : intval($limit[0]);
             $rateLimit->remainingMonth = empty($remaining) ? 0 : intval($remaining[0]);
             $result->rateLimit = $rateLimit;
