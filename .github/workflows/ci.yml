@@ -18,6 +18,8 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: ${{ matrix.php-version }}
+      - name: Lint with Psalm
+        run: ./vendor/bin/psalm --shepherd --stats --threads=4
       - name: Test with Coverage
         uses: php-actions/phpunit@v3
         env:

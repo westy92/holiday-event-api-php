@@ -17,18 +17,24 @@ final class ConstructorTest extends TestCase
     public function testNullApiKey(): void
     {
         $this->expectException(\TypeError::class);
+        /**
+         * @psalm-suppress NullArgument
+         */ 
         new Client(null);
     }
 
     public function testMissingApiKey(): void
     {
         $this->expectException(\ArgumentCountError::class);
+        /**
+         * @psalm-suppress TooFewArguments
+         */ 
         new Client();
     }
 
     public function testConstructorSuccess(): void
     {
-        $client = new Client('abc123');
-        $this->assertNotNull($client);
+        $clinet = new Client('abc123');
+        $this->assertInstanceOf(Client::class, $clinet);
     }
 }

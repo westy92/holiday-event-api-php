@@ -11,5 +11,14 @@
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
+        <directory name="test" />
     </projectFiles>
+
+    <issueHandlers>
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="test" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+    </issueHandlers>
 </psalm>

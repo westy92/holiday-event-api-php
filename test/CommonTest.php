@@ -26,7 +26,7 @@ final class CommonTest extends TestCase
         $this->assertEquals(0, $this->mock->count());
     }
 
-    public function testSendsApiKey()
+    public function testSendsApiKey(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -39,7 +39,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testSendsUserAgent()
+    public function testSendsUserAgent(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -52,7 +52,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testSendsPlatformVersion()
+    public function testSendsPlatformVersion(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -65,7 +65,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testPassesAlongError()
+    public function testPassesAlongError(): void
     {
         $this->mock->append(
             new Response(
@@ -80,7 +80,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testServerError500()
+    public function testServerError500(): void
     {
         $this->mock->append(new Response(500));
         $client = new TestClient('abc123', $this->mock);
@@ -89,7 +89,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testServerErrorUnknown()
+    public function testServerErrorUnknown(): void
     {
         $this->mock->append(new Response(599));
         $client = new TestClient('abc123', $this->mock);
@@ -98,7 +98,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testServerError()
+    public function testServerError(): void
     {
         $this->mock->append(
             new RequestException('derp', new Request('GET', 'test')),
@@ -109,7 +109,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testServerErrorMalformedResponse()
+    public function testServerErrorMalformedResponse(): void
     {
         $this->mock->append(new Response(200, [], '{'));
         $client = new TestClient('abc123', $this->mock);
@@ -118,7 +118,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testFollowsRedirects()
+    public function testFollowsRedirects(): void
     {
         $this->mock->append(
             function (\GuzzleHttp\Psr7\Request $request) {
@@ -135,7 +135,7 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
-    public function testReportsRateLimits()
+    public function testReportsRateLimits(): void
     {
         global $getEventsDefaultJson;
         $this->mock->append(
@@ -146,7 +146,7 @@ final class CommonTest extends TestCase
         );
         $client = new TestClient('abc123', $this->mock);
         $result = $client->getEvents();
-        $this->assertEquals(123, $result->rateLimit->remainingMonth);
-        $this->assertEquals(456, $result->rateLimit->limitMonth);
+        $this->assertEquals(123, $result->rateLimit?->remainingMonth);
+        $this->assertEquals(456, $result->rateLimit?->limitMonth);
     }
 }

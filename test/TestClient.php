@@ -2,9 +2,12 @@
 
 namespace Westy92\HolidayEventApi\Tests;
 
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+
 final class TestClient extends \Westy92\HolidayEventApi\Client
 {
-    private $handler;
+    private HandlerStack $handler;
     protected function clientBuilder(): \GuzzleHttp\Client
     {
         return new \GuzzleHttp\Client([
@@ -13,9 +16,9 @@ final class TestClient extends \Westy92\HolidayEventApi\Client
         ]);
     }
 
-    public function __construct(string $apiKey, $mock)
+    public function __construct(string $apiKey, MockHandler $mock)
     {
-        $this->handler = \GuzzleHttp\HandlerStack::create($mock);
+        $this->handler = HandlerStack::create($mock);
         parent::__construct($apiKey);
     }
 }

@@ -15,7 +15,7 @@ $searchParametersJson = file_get_contents(__DIR__ . '/search-parameters.json');
 final class SearchTest extends TestCase
 {
     protected MockHandler $mock;
-
+    
     protected function setUp(): void
     {
         $this->mock = new MockHandler([]);

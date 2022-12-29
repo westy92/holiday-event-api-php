@@ -40,8 +40,8 @@ final class GetEventsTest extends TestCase
         $this->assertEquals(false, $result->adult);
         $this->assertEquals('America/Chicago', $result->timezone);
         $this->assertEquals(2, count($result->events));
-        $this->assertEquals(1, count($result->multidayStarting));
-        $this->assertEquals(2, count($result->multidayOngoing));
+        $this->assertEquals(1, count($result->multidayStarting ?? []));
+        $this->assertEquals(2, count($result->multidayOngoing ?? []));
         $expected = new EventSummary(
             id: 'b80630ae75c35f34c0526173dd999cfc',
             name: 'Cinco de Mayo',
@@ -70,8 +70,8 @@ final class GetEventsTest extends TestCase
         $this->assertEquals(true, $result->adult);
         $this->assertEquals('America/New_York', $result->timezone);
         $this->assertEquals(2, count($result->events));
-        $this->assertEquals(0, count($result->multidayStarting));
-        $this->assertEquals(1, count($result->multidayOngoing));
+        $this->assertEquals(0, count($result->multidayStarting ?? []));
+        $this->assertEquals(1, count($result->multidayOngoing ?? []));
         $expected = new EventSummary(
             id: '6ebb6fd5e483de2fde33969a6c398472',
             name: 'Get to Know Your Customers Day',
