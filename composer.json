@@ -3,6 +3,35 @@
     "description": "The Official Holiday and Event API for PHP",
     "type": "library",
     "keywords": [
+        "holiday",
+        "holidays",
+        "public",
+        "federal",
+        "official",
+        "unofficial",
+        "date",
+        "month",
+        "year",
+        "day",
+        "calendar",
+        "api",
+        "holidayapi",
+        "list",
+        "event",
+        "occurrence",
+        "celebration",
+        "description",
+        "details",
+        "checkiday",
+        "php",
+        "international",
+        "national",
+        "world",
+        "popular",
+        "trusted",
+        "accurate",
+        "free",
+        "best"
     ],
     "require": {
         "php": "^8.0",
@@ -16,6 +45,10 @@
         "phpunit/phpunit": "^9.5"
     },
     "license": "MIT",
+    "homepage": "https://github.com/westy92/holiday-event-api-php",
+    "support": {
+        "issues": "https://github.com/westy92/holiday-event-api-php/issues"
+    },
     "autoload": {
         "psr-4": {
             "Westy92\\HolidayEventApi\\": "src/",
