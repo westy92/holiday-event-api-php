@@ -142,7 +142,7 @@ class Client
                 /**
                  * @var ?string
                  */
-                $error = isset($json['error']) && is_string($json['error']) ? $json['error'] : null;
+                $error = is_array($json) && isset($json['error']) && is_string($json['error']) ? $json['error'] : null;
                 throw new \RuntimeException($error
                     ?? $e->getResponse()->getReasonPhrase()
                     ?: strval($e->getResponse()->getStatusCode())

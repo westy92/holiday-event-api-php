@@ -76,6 +76,21 @@ final class CommonTest extends TestCase
         $client->getEvents();
     }
 
+    public function testMalformedError(): void
+    {
+        $this->mock->append(
+            new Response(
+                401,
+                [],
+                json_encode(['error' => 5]),
+            ),
+        );
+        $client = new TestClient('abc123', $this->mock);
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unauthorized');
+        $client->getEvents();
+    }
+
     public function testServerError500(): void
     {
         $this->mock->append(new Response(500));
