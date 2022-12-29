@@ -1,0 +1,27 @@
+name: PHP CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest] #[ubuntu-latest, windows-latest, macos-latest]
+        # https://endoflife.date/php
+        php-version: ['8.0'] # TODO
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: ${{ matrix.php-version }}
+      - name: Test with Coverage
+        uses: php-actions/phpunit@v3
+        with:
+          php_version: ${{ matrix.php-version }}
+      - name: Upload coverage to Codecov
+        if: ${{ matrix.php-version == '8.0' && matrix.os == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v3
