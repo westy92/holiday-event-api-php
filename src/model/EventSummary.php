@@ -5,7 +5,7 @@ namespace Westy92\HolidayEventApi\Model;
 /**
  * A summary of an Event
  */
-final class EventSummary
+class EventSummary
 {
     /**
      * The Event Id

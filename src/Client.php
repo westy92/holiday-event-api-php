@@ -55,6 +55,9 @@ class Client
         $this->client = $this->clientBuilder();
     }
 
+    /**
+     * Gets the Events for the provided Date
+     */
     public function getEvents(?string $date = null, bool $adult = false, ?string $timezone = null): Model\GetEventsResponse
     {
         $params = ['adult' => var_export($adult, true)];
@@ -65,6 +68,25 @@ class Client
             $params['timezone'] = $timezone;
         }
         return $this->request('events', $params, Model\GetEventsResponse::class);
+    }
+
+    /**
+     * Gets the Event Info for the provided Event
+     */
+    public function getEventInfo(string $id, ?int $start = null, ?int $end = null): Model\GetEventInfoResponse {
+        if (empty($id)) {
+            throw new \InvalidArgumentException('Event id is required.');
+        }
+        $params = [
+            'id' => $id,
+        ];
+        if ($start != null) {
+            $params['start'] = intval($start);
+        }
+        if ($end != null) {
+            $params['end'] = intval($end);
+        }
+        return $this->request('event', $params, Model\GetEventInfoResponse::class);
     }
 
     /**
