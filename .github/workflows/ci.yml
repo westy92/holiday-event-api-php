@@ -25,6 +25,7 @@ jobs:
         env:
           XDEBUG_MODE: coverage
         with:
+          version: 9 # supports PHP 8.0+
           php_version: ${{ matrix.php-version }}
           php_extensions: xdebug
           args: test --coverage-clover ./coverage.xml
