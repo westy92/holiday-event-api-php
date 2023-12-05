@@ -36,9 +36,9 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.5",
-        "symfony/serializer": "^5.4",
+        "symfony/serializer": "6.0",
         "doctrine/annotations": "^2.0",
-        "symfony/property-info": "^5.4",
+        "symfony/property-info": "6.0",
         "phpdocumentor/reflection-docblock": "^5.3"
     },
     "require-dev": {
