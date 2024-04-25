@@ -21,11 +21,10 @@ jobs:
       - name: Lint with Psalm
         run: ./vendor/bin/psalm --shepherd --stats --threads=4
       - name: Test with Coverage
-        uses: php-actions/phpunit@v3
+        uses: php-actions/phpunit@v4
         env:
           XDEBUG_MODE: coverage
         with:
-          version: 9 # supports PHP 8.0+
           php_version: ${{ matrix.php-version }}
           php_extensions: xdebug
           args: test --coverage-clover ./coverage.xml
