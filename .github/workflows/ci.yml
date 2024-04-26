@@ -21,7 +21,7 @@ jobs:
       - name: Lint with Psalm
         run: ./vendor/bin/psalm --shepherd --stats --threads=4
       - name: Test with Coverage
-        uses: westy92/phpunit@8f7536bd97708db0445959fb42469a246bff65bb
+        uses: westy92/phpunit@969005a699a81907f2fd973cf3f2222661f37c31
         env:
           XDEBUG_MODE: coverage
         with:
