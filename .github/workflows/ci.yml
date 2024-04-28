@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        uses: westy92/composer@97664d9088eb10913b1e86483f880b4192fcad5d
+        uses: westy92/composer@b8f7b4deffc6f423beacd908e3c84337465e17a1
         with:
           php_version: ${{ matrix.php-version }}
       - name: Lint with Psalm
