@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest] # TODO [ubuntu-latest, windows-latest, macos-latest] https://github.com/php-actions/composer/issues/95
+        os: [ubuntu-latest] # TODO [ubuntu-latest, windows-latest, macos-latest] https://github.com/php-actions/composer/issues/95
         # https://endoflife.date/php
         php-version: ['8.1', '8.2', '8.3']
 
